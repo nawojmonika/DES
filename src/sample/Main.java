@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+import java.util.BitSet;
+
 public class Main extends Application {
 
     private static int[] IP = {58, 50, 42, 34, 26, 18, 10, 2,
@@ -18,7 +21,7 @@ public class Main extends Application {
                          63, 55, 47, 39, 31, 23, 15, 7};
 
     private String originalMessage = "Ala ma kota";
-    private String key = "admin123";
+    private String key = "IEOFIT#1";
 
 
     @Override
@@ -37,19 +40,29 @@ public class Main extends Application {
 
     private void getEncryptedKey(String key){
        String biteKey = this.getBites(key);
-
+       this.initialPermutaion(biteKey);
     }
 
     private String getBites(String message){
-        byte[] bytes = message.getBytes();
-        String bites= "";
-        for (byte keyByte:bytes) {
-            bites += Integer.toBinaryString(keyByte);
+        String biteMessage= "";
+        System.out.println(message);
+
+        byte[] ascii = message.getBytes();
+        for (byte character : ascii) {
+            System.out.println((int)character);
+            String binary = Integer.toString((int)character, 2);
+            for (int i = 8 - binary.length(); i > 0; i--  ) {
+                binary = "0" + binary;
+            }
+            biteMessage += ' ' + binary;
         }
-        return bites;
+        return biteMessage;
     }
 
-    private void initialPermutaion(){
+    private void initialPermutaion(String biteMessage){
+        String permutationMessage = "";
+        for (int index:this.IP) {
+    }
 
     }
 }
