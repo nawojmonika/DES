@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Main extends Application {
 
     private static int[] IP = {57, 49, 41, 33, 25, 17, 9, 1,
@@ -36,27 +38,27 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 
-        getEncryptedKeys(this.key);
+        ArrayList<String> encryptedKeys = getEncryptedKeys(this.key);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private String[] getEncryptedKeys(String key) {
+    private ArrayList<String> getEncryptedKeys(String key) {
         String biteKey = this.getBites(key);
-        String permutatedKey = this.initialPermutaion(biteKey, this.IP);
-        String[] subKeys = {};
-        String leftSide, rightSide;
+        String permutatedKey = this.permutation(biteKey, this.IP);
+        ArrayList<String> subKeys = new ArrayList<String>();
+        int keyLength = permutatedKey.length();
+        String leftSide = permutatedKey.substring(0, keyLength / 2);
+        String rightSide = permutatedKey.substring(keyLength / 2, keyLength);
 
         for (int shift:rotationTable) {
-            int keyLength = permutatedKey.length();
-            leftSide = permutatedKey.substring(0, keyLength / 2);
-            rightSide = permutatedKey.substring(keyLength / 2, keyLength);
-            String leftKey = this.leftShift(leftSide, shift);
-            String rightKey = this.leftShift(rightSide, shift);
+            leftSide = this.leftShift(leftSide, shift);
+            rightSide = this.leftShift(rightSide, shift);
+            String subKey = this.permutation(leftSide + rightSide, this.keyPermutation);
+            subKeys.add(subKey);
         }
-
         return subKeys;
     }
 
@@ -73,7 +75,7 @@ public class Main extends Application {
         return biteMessage;
     }
 
-    private String initialPermutaion(String biteMessage, int[] permutationTable) {
+    private String permutation(String biteMessage, int[] permutationTable) {
         String permutationMessage = "";
         for (int index : permutationTable) {
             permutationMessage += biteMessage.charAt(index - 1);
@@ -85,7 +87,6 @@ public class Main extends Application {
         String firstChar = message.substring(0, 1);
         String shiftedMessage = message;
         for (int i = 0; i < shiftNum; i++) {
-            System.out.println(i);
             shiftedMessage = shiftedMessage.substring(1, shiftedMessage.length()) + firstChar;
         }
         return shiftedMessage;
