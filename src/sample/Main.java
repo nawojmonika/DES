@@ -174,7 +174,8 @@ public class Main extends Application {
 
     private void rightSideEncryption(String rightSide, ArrayList<String> encryptedKeys){
         String permutated = this.permutation(rightSide, this.rightInitialPermutation);
-        this.performXOR(permutated, encryptedKeys.get(0));
+        String XORoutput  = this.performXOR(permutated, encryptedKeys.get(0));
+        this.getSBlockValues(XORoutput);
     }
 
     private String performXOR(String message, String key){
@@ -190,5 +191,67 @@ public class Main extends Application {
             }
         }
         return output;
+    }
+
+    private String getSBlockValues(String message){
+        String combinedSBlockValues = "";
+        for (int i = 0; i < 8; i++) {
+            int from = i * 6;
+            int to = from + 6;
+            String sBlock = message.substring(from, to);
+            int row = this.getSRow(sBlock);
+            int column = this.getSColumn(sBlock);
+            int shrinkValue;
+            try {
+                shrinkValue = this.getshrinkPermutationBlock(i)[row][column];
+                String binaryVal = Integer.toBinaryString(shrinkValue);
+                for (int j = 4 - binaryVal.length(); j > 0; j--) {
+                    binaryVal = "0" + binaryVal;
+                }
+                combinedSBlockValues += binaryVal;
+            }
+            catch (Exception e){}
+        }
+        return combinedSBlockValues;
+    }
+
+    private int getSRow(String block){
+        String binaryVal = block.substring(0,1) + block.substring(5, 6);
+        return Integer.parseInt(binaryVal, 2);
+    }
+
+    private int getSColumn(String block){
+        String binaryVal = block.substring(1, 5);
+        return Integer.parseInt(binaryVal, 2);
+    }
+
+    private int[][] getshrinkPermutationBlock(int id) throws Exception {
+        switch (id){
+            case 0: {
+                return this.shrinkPermutationBlock1;
+            }
+            case 1: {
+                return this.shrinkPermutationBlock2;
+            }
+            case 2: {
+                return this.shrinkPermutationBlock3;
+            }
+            case 3: {
+                return this.shrinkPermutationBlock4;
+            }
+            case 4: {
+                return this.shrinkPermutationBlock5;
+            }
+            case 5: {
+                return this.shrinkPermutationBlock6;
+            }
+            case 6: {
+                return this.shrinkPermutationBlock7;
+            }
+            case 7: {
+                return this.shrinkPermutationBlock8;
+            }
+        }
+        throw new Exception("No index exception");
     }
 }
