@@ -36,6 +36,13 @@ public class Main extends Application {
             61, 53, 45, 37, 29, 21, 13, 5,
             63, 55, 47, 39, 31, 23, 15, 7};
 
+    public static int[] rightPermutation = {32, 1, 2, 3, 4, 5, 4, 5,
+            6, 7, 8, 9, 8, 9, 10, 11,
+            12, 13, 12, 13, 14, 15, 16, 17,
+            16, 17, 18, 19, 20, 21, 20, 21,
+            22, 23, 24, 25, 24, 25, 26, 27,
+            28, 29, 28, 29, 30, 31, 32, 1};
+
     private String originalMessage = "IEOFIT#2";
     private String key = "IEOFIT#1";
 
@@ -48,6 +55,7 @@ public class Main extends Application {
         primaryStage.show();
 
         ArrayList<String> encryptedKeys = getEncryptedKeys(this.key);
+        this.encryptMessage(this.originalMessage, encryptedKeys);
     }
 
     public static void main(String[] args) {
@@ -99,5 +107,32 @@ public class Main extends Application {
             shiftedMessage = shiftedMessage.substring(1, shiftedMessage.length()) + firstChar;
         }
         return shiftedMessage;
+    }
+
+    private void encryptMessage(String originalMessage, ArrayList<String> encryptedKeys){
+        String permutatedMessage = this.permutation(this.getBites(originalMessage), this.IP);
+        String leftSide = permutatedMessage.substring(0, 32);
+        String rightSide = permutatedMessage.substring(32, 64);
+        this.rightSideEncryption(rightSide, encryptedKeys);
+    }
+
+    private void rightSideEncryption(String rightSide, ArrayList<String> encryptedKeys){
+        String permutated = this.permutation(rightSide, this.rightPermutation);
+        this.performXOR(permutated, encryptedKeys.get(0));
+    }
+
+    private String performXOR(String message, String key){
+        String output = "";
+        for (int i = 0; i < message.length() ; i++) {
+            char messChar = message.charAt(i);
+            char keyChar = key.charAt(i);
+            if(messChar != keyChar){
+                output += "1";
+            }
+            else {
+                output += "0";
+            }
+        }
+        return output;
     }
 }
