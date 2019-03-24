@@ -25,7 +25,7 @@ public class Main extends Application {
             51,	45,	33,	48,	44,	49,	39,	56,
             34,	53,	46,	42,	50,	36,	29,	32};
 
-    private String originalMessage = "Ala ma kota";
+    private String originalMessage = "IEOFIT#2";
     private String key = "IEOFIT#1";
 
 
@@ -47,12 +47,15 @@ public class Main extends Application {
         String biteKey = this.getBites(key);
         String permutatedKey = this.initialPermutaion(biteKey, this.IP);
         String[] subKeys = {};
+        String leftSide, rightSide;
 
-        int keyLength = permutatedKey.length();
-        String leftSide = permutatedKey.substring(0, keyLength / 2);
-        String rightSide = permutatedKey.substring(keyLength / 2, keyLength);
-        String leftKey = this.leftShift(leftSide);
-        String rightKey = this.leftShift(rightSide);
+        for (int shift:rotationTable) {
+            int keyLength = permutatedKey.length();
+            leftSide = permutatedKey.substring(0, keyLength / 2);
+            rightSide = permutatedKey.substring(keyLength / 2, keyLength);
+            String leftKey = this.leftShift(leftSide, shift);
+            String rightKey = this.leftShift(rightSide, shift);
+        }
 
         return subKeys;
     }
@@ -78,8 +81,13 @@ public class Main extends Application {
         return permutationMessage;
     }
 
-    private String leftShift(String message) {
+    private String leftShift(String message, int shiftNum) {
         String firstChar = message.substring(0, 1);
-        return message.substring(1, message.length()) + firstChar;
+        String shiftedMessage = message;
+        for (int i = 0; i < shiftNum; i++) {
+            System.out.println(i);
+            shiftedMessage = shiftedMessage.substring(1, shiftedMessage.length()) + firstChar;
+        }
+        return shiftedMessage;
     }
 }
