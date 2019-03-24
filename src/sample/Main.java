@@ -23,20 +23,20 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("DES encryptor");
+        primaryStage.setTitle("DES");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
 
-        getEncryptedKey(this.key);
+        getEncryptedKeys(this.key);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private void getEncryptedKey(String key){
+    private void getEncryptedKeys(String key){
        String biteKey = this.getBites(key);
-       this.initialPermutaion(biteKey);
+       String[] halfKeys = this.initialPermutaion(biteKey);
     }
 
     private String getBites(String message){
@@ -57,8 +57,13 @@ public class Main extends Application {
         for (int index:this.IP) {
             permutationMessage += biteMessage.charAt(index - 1);
             }
-        String leftSide = permutationMessage.substring(0,31);
-        String rightSide = permutationMessage.substring(31,63);
+        int IPLength = this.IP.length;
+        String leftSide = permutationMessage.substring(0,IPLength/2);
+        String rightSide = permutationMessage.substring(IPLength/2, IPLength);
         return new String[] {leftSide, rightSide};
     }
+
+//    private String leftShift(String message){
+//        return "";
+//    }
 }
