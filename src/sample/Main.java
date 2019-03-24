@@ -37,6 +37,8 @@ public class Main extends Application {
     private void getEncryptedKeys(String key){
        String biteKey = this.getBites(key);
        String[] halfKeys = this.initialPermutaion(biteKey);
+       String leftKey = this.leftShift(halfKeys[0]);
+       String rightKey = this.leftShift(halfKeys[1]);
     }
 
     private String getBites(String message){
@@ -63,7 +65,8 @@ public class Main extends Application {
         return new String[] {leftSide, rightSide};
     }
 
-//    private String leftShift(String message){
-//        return "";
-//    }
+    private String leftShift(String message){
+        String firstChar = message.substring(0, 1);
+        return message.substring(1, message.length()) + firstChar;
+    }
 }
