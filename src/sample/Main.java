@@ -56,14 +56,25 @@ public class Main extends Application {
         String permutatedMessage = permutation(getBites(originalMessage), PermutationTables.IP);
         String leftSide = permutatedMessage.substring(0, 32);
         String rightSide = permutatedMessage.substring(32, 64);
-        this.rightSideEncryption(rightSide, encryptedKeys);
+
+        for (String key:encryptedKeys) {
+            String prevLeft = leftSide;
+            String prevRight = rightSide;
+            String encrytedRight = this.rightSideEncryption(rightSide, key);
+            rightSide = performXOR(encrytedRight, prevLeft);
+            leftSide = prevRight;
+        }
+
+        System.out.println(rightSide);
+
+
     }
 
-    private void rightSideEncryption(String rightSide, ArrayList<String> encryptedKeys){
+    private String rightSideEncryption(String rightSide, String key){
         String permutated = permutation(rightSide, PermutationTables.rightInitialPermutation);
-        String XORoutput  = performXOR(permutated, encryptedKeys.get(0));
+        String XORoutput  = performXOR(permutated, key);
         String sblockValues = this.getSBlockValues(XORoutput);
-        String finalPermutation = permutation(sblockValues, PermutationTables.rightFinalPermutation);
+        return  permutation(sblockValues, PermutationTables.rightFinalPermutation);
     }
 
     private String getSBlockValues(String message){
