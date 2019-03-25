@@ -9,9 +9,9 @@ public class PermutationTables {
             30, 22, 14, 6, 61, 53, 45, 37,
             29, 21, 13, 5, 28, 20, 12, 4};
 
-    public static int[] rotationTable= {1,	1, 2, 2, 2, 2, 2, 2, 1,	2, 2, 2, 2, 2, 2, 1 };
+    public static int[] rotationTable = {1, 1, 2, 2, 2, 2, 2, 2, 1,	2, 2, 2, 2, 2, 2, 1 };
 
-    public static int[] subkeyPermutation = {14,	17,	11,	24,	1,	5,	3,	28,
+    public static int[] subkeyPermutation = {14, 17, 11, 24, 1, 5, 3, 28,
             15,	6,	21,	10,	23,	19,	12,	4,
             26,	8,	16,	7, 27,	20,	13,	2,
             41,	52,	31,	37,	47,	55,	30,	40,
