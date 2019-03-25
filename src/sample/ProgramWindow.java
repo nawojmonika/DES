@@ -1,10 +1,12 @@
 package sample;
 
+import javafx.geometry.HPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class ProgramWindow {
@@ -16,10 +18,15 @@ public class ProgramWindow {
 
     private static MenuBar mainMenu = null;
     private static Menu openFromFile = null;
-    private static Menu cryptography = null;
+    private static MenuItem openEncryptedFile = null;
+    private static MenuItem openDecryptedFile = null;
 
+    private static Menu cryptography = null;
     private static MenuItem encrypt = null;
     private static MenuItem decrypt = null;
+
+    private static TextField key = null;
+
     private static TextArea textToEncryption = null;
     private static TextArea encryptedText = null;
 
@@ -43,27 +50,38 @@ public class ProgramWindow {
 
         Label labelTextToEncryption = new Label("Text to encryption");
         Label labelEncryptedText = new Label("Encrypted text");
+        Label labelKeyInput = new Label("Key input");
+        inputsGrid.setHalignment(labelKeyInput, HPos.CENTER);
+
+        key = new TextField();
         textToEncryption = new TextArea();
         encryptedText = new TextArea();
 
-        inputsGrid.add(labelTextToEncryption, 1, 1);
-        inputsGrid.add(textToEncryption, 1, 2);
 
-        inputsGrid.add(labelEncryptedText, 2, 1);
-        inputsGrid.add(encryptedText, 2, 2);
+        inputsGrid.add(labelKeyInput, 1, 1);
+        inputsGrid.add(key, 2, 1);
+
+        inputsGrid.add(labelTextToEncryption, 1, 2);
+        inputsGrid.add(textToEncryption, 1, 3);
+
+        inputsGrid.add(labelEncryptedText, 2, 2);
+        inputsGrid.add(encryptedText, 2, 3);
 
         borderPane.setCenter(inputsGrid);
     }
 
     public void setupMenu() {
         mainMenu = new MenuBar();
-        openFromFile = new Menu("Open from file");
-        cryptography = new Menu("Cryptography");
+        openFromFile = new Menu("Open file");
+        openEncryptedFile = new MenuItem("Open encrypted") ;
+        openDecryptedFile = new MenuItem("Open decrypted") ;
 
+        cryptography = new Menu("Cryptography");
         encrypt = new MenuItem("Encrypt") ;
         decrypt = new MenuItem("Decrypt") ;
 
         cryptography.getItems().addAll(encrypt, decrypt);
+        openFromFile.getItems().addAll(openEncryptedFile, openDecryptedFile);
 
         mainMenu.getMenus().addAll(openFromFile, cryptography);
 
