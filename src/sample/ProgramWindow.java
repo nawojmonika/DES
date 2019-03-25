@@ -119,6 +119,19 @@ public class ProgramWindow {
         encrypt = new MenuItem("Encrypt") ;
         decrypt = new MenuItem("Decrypt") ;
 
+        encrypt.setOnAction(event -> {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText("Tutaj dodać obsługę enkrypcji");
+            a.show();
+        });
+
+        decrypt.setOnAction(event -> {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText("Tutaj dodać obsługę dekrypcji");
+            a.show();
+        });
+
+
         cryptography.getItems().addAll(encrypt, decrypt);
         openFromFile.getItems().addAll(openEncryptedFile, openDecryptedFile);
 
