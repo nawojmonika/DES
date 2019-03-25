@@ -11,12 +11,16 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProgramWindow {
@@ -30,6 +34,8 @@ public class ProgramWindow {
     private static Menu openFromFile = null;
     private static MenuItem openEncryptedFile = null;
     private static MenuItem openDecryptedFile = null;
+    private static MenuItem saveEncryptedFile = null;
+    private static MenuItem saveDecryptedFile = null;
 
     private static Menu cryptography = null;
     private static MenuItem encrypt = null;
@@ -82,9 +88,12 @@ public class ProgramWindow {
 
     public void setupMenu() {
         mainMenu = new MenuBar();
-        openFromFile = new Menu("Open file");
+        openFromFile = new Menu("File");
         openEncryptedFile = new MenuItem("Open encrypted");
         openDecryptedFile = new MenuItem("Open decrypted");
+
+        saveEncryptedFile = new MenuItem("Save encrypted");
+        saveDecryptedFile = new MenuItem("Save decrypted");
 
         openEncryptedFile.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -93,7 +102,7 @@ public class ProgramWindow {
             try {
                 List<String> lines = Files.readAllLines(selectedFile.toPath());
                 String wholeFileInText = lines.stream().map(String::toString).collect(Collectors.joining(System.lineSeparator()));
-                textToEncryption.setText(wholeFileInText);
+                encryptedText.setText(wholeFileInText);
             } catch (Exception e) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(e.toString());
@@ -107,12 +116,42 @@ public class ProgramWindow {
             try {
                 List<String> lines = Files.readAllLines(selectedFile.toPath());
                 String wholeFileInText = lines.stream().collect(Collectors.joining(System.lineSeparator()));
-                encryptedText.setText(wholeFileInText);
+                textToEncryption.setText(wholeFileInText);
             } catch (Exception e) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(e.toString());
             }
 
+        });
+
+        saveEncryptedFile.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(mainStage);
+
+            if(file != null){
+                SaveFile(encryptedText.getText(), file);
+            }
+        });
+
+        saveDecryptedFile.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(mainStage);
+
+            if(file != null){
+                SaveFile(textToEncryption.getText(), file);
+            }
         });
 
         cryptography = new Menu("Cryptography");
@@ -133,11 +172,23 @@ public class ProgramWindow {
 
 
         cryptography.getItems().addAll(encrypt, decrypt);
-        openFromFile.getItems().addAll(openEncryptedFile, openDecryptedFile);
+        openFromFile.getItems().addAll(openEncryptedFile, openDecryptedFile, saveEncryptedFile, saveDecryptedFile);
 
         mainMenu.getMenus().addAll(openFromFile, cryptography);
 
         borderPane.setTop(mainMenu);
         root.getChildren().add(borderPane);
+    }
+
+    private void SaveFile(String content, File file){
+        try {
+            FileWriter fileWriter = null;
+
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+        }
+
     }
 }
