@@ -24,7 +24,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    private ArrayList<String> getEncryptedKeys(String key) {
+    public static ArrayList<String> getEncryptedKeys(String key) {
         String biteKey = getBites(key);
         String permutatedKey = permutation(biteKey, PermutationTables.initialKeyPermutation);
 
@@ -32,14 +32,14 @@ public class Main extends Application {
         int keyLength = permutatedKey.length();
         String leftSide = permutatedKey.substring(0, keyLength / 2);
         String rightSide = permutatedKey.substring(keyLength / 2, keyLength);
-        System.out.println("C0 "+ leftSide);
-        System.out.println("D0 "+ rightSide);
+        // System.out.println("C0 "+ leftSide);
+        // System.out.println("D0 "+ rightSide);
         int i = 1;
         for (int shift:PermutationTables.rotationTable) {
             leftSide = leftShift(leftSide, shift);
             rightSide = leftShift(rightSide, shift);
             String subKey = permutation(leftSide + rightSide, PermutationTables.subkeyPermutation);
-            System.out.println("key "+ i +": " + subKey);
+            // System.out.println("key "+ i +": " + subKey);
             subKeys.add(subKey);
             i++;
         }
