@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -19,10 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Group root = new Group();
-        Scene scene = new Scene(root, 500, 500);
-        primaryStage.setTitle("JavaFX Scene Graph Demo");
-        primaryStage.setScene(scene);
+        ProgramWindow pw = new ProgramWindow(primaryStage);
         primaryStage.show();
 
         ArrayList<String> encryptedKeys = getEncryptedKeys(this.key);
