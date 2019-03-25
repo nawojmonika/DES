@@ -32,16 +32,11 @@ public class Main extends Application {
         int keyLength = permutatedKey.length();
         String leftSide = permutatedKey.substring(0, keyLength / 2);
         String rightSide = permutatedKey.substring(keyLength / 2, keyLength);
-        // System.out.println("C0 "+ leftSide);
-        // System.out.println("D0 "+ rightSide);
-        int i = 1;
         for (int shift:PermutationTables.rotationTable) {
             leftSide = leftShift(leftSide, shift);
             rightSide = leftShift(rightSide, shift);
             String subKey = permutation(leftSide + rightSide, PermutationTables.subkeyPermutation);
-            // System.out.println("key "+ i +": " + subKey);
             subKeys.add(subKey);
-            i++;
         }
         return subKeys;
     }
@@ -51,17 +46,12 @@ public class Main extends Application {
         String permutatedMessage = permutation(getBites(originalMessage), PermutationTables.IP);
         String leftSide = permutatedMessage.substring(0, 32);
         String rightSide = permutatedMessage.substring(32, 64);
-        int i = 1;
         for (String key:encryptedKeys) {
             String prevLeft = leftSide;
             String prevRight = rightSide;
             String encrytedRight = this.rightSideEncryption(rightSide, key);
             rightSide = performXOR(encrytedRight, prevLeft);
             leftSide = prevRight;
-//            System.out.println("left " + i +": "+ leftSide);
-//            System.out.println("right " + i +": "+ rightSide);
-            System.out.println("");
-            i++;
         }
     }
 
