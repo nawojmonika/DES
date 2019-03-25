@@ -53,6 +53,33 @@ public class Main extends Application {
             rightSide = performXOR(encrytedRight, prevLeft);
             leftSide = prevRight;
         }
+        String reversed = rightSide + leftSide;
+        String encryptedBlock = permutation(reversed, PermutationTables.finalPermutation);
+        System.out.println(this.binaryToHex(encryptedBlock));
+    }
+
+    private String binaryToString(String binaryMessage){
+        String message = "";
+        for (int i = 0; i < binaryMessage.length(); i+=8) {
+            String binary = binaryMessage.substring(i, i+8);
+            int charCode = Integer.parseInt(binary, 2);
+            message += new Character((char)charCode).toString();
+        }
+        return message;
+    }
+
+    private String binaryToHex(String binaryMessage){
+        String message = "";
+        for (int i = 0; i < binaryMessage.length(); i+=8) {
+            String binary = binaryMessage.substring(i, i+8);
+            int decimal = Integer.parseInt(binary, 2);
+            String hex = Integer.toHexString(decimal);
+            if(hex.length() < 2){
+                hex = "0" + hex;
+            }
+            message += hex + " ";
+        }
+        return message;
     }
 
     private String rightSideEncryption(String rightSide, String key){
