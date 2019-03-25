@@ -7,7 +7,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProgramWindow {
     public static Stage mainStage = null;
@@ -73,8 +83,37 @@ public class ProgramWindow {
     public void setupMenu() {
         mainMenu = new MenuBar();
         openFromFile = new Menu("Open file");
-        openEncryptedFile = new MenuItem("Open encrypted") ;
-        openDecryptedFile = new MenuItem("Open decrypted") ;
+        openEncryptedFile = new MenuItem("Open encrypted");
+        openDecryptedFile = new MenuItem("Open decrypted");
+
+        openEncryptedFile.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            try {
+                List<String> lines = Files.readAllLines(selectedFile.toPath());
+                String wholeFileInText = lines.stream().map(String::toString).collect(Collectors.joining(System.lineSeparator()));
+                textToEncryption.setText(wholeFileInText);
+            } catch (Exception e) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setHeaderText(e.toString());
+            }
+        });
+
+        openDecryptedFile.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            try {
+                List<String> lines = Files.readAllLines(selectedFile.toPath());
+                String wholeFileInText = lines.stream().collect(Collectors.joining(System.lineSeparator()));
+                encryptedText.setText(wholeFileInText);
+            } catch (Exception e) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setHeaderText(e.toString());
+            }
+
+        });
 
         cryptography = new Menu("Cryptography");
         encrypt = new MenuItem("Encrypt") ;
