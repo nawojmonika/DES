@@ -23,12 +23,10 @@ public class EncryptionUtils {
     }
 
     public static String leftShift(String message, int shiftNum) {
-        String firstChar = message.substring(0, 1);
+        String firstCharacters = message.substring(0, shiftNum);
         String shiftedMessage = message;
-        for (int i = 0; i < shiftNum; i++) {
-            shiftedMessage = shiftedMessage.substring(1, shiftedMessage.length()) + firstChar;
-        }
-        return shiftedMessage;
+        shiftedMessage = message + firstCharacters;
+        return shiftedMessage.substring(shiftNum);
     }
     public static String performXOR(String message, String key){
         String output = "";
