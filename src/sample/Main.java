@@ -16,8 +16,7 @@ public class Main extends Application {
         ProgramWindow pw = new ProgramWindow(primaryStage);
         primaryStage.show();
 
-        ArrayList<String> encryptedKeys = getEncryptedKeys(this.key);
-        this.encryptMessage(this.originalMessage, encryptedKeys);
+        this.encryptMessage(this.originalMessage, this.key);
     }
 
     public static void main(String[] args) {
@@ -42,14 +41,15 @@ public class Main extends Application {
     }
 
 
-    private void encryptMessage(String originalMessage, ArrayList<String> encryptedKeys){
+    private void encryptMessage(String originalMessage, String key){
+        ArrayList<String> encryptedKeys = getEncryptedKeys(key);
         String permutatedMessage = permutation(getBites(originalMessage), PermutationTables.IP);
         String leftSide = permutatedMessage.substring(0, 32);
         String rightSide = permutatedMessage.substring(32, 64);
-        for (String key:encryptedKeys) {
+        for (String subkey:encryptedKeys) {
             String prevLeft = leftSide;
             String prevRight = rightSide;
-            String encrytedRight = this.rightSideEncryption(rightSide, key);
+            String encrytedRight = this.rightSideEncryption(rightSide, subkey);
             rightSide = performXOR(encrytedRight, prevLeft);
             leftSide = prevRight;
         }
