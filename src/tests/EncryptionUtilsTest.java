@@ -2,18 +2,20 @@ package tests;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import sample.Algorithm;
 import sample.EncryptionUtils;
-import sample.Main;
 import sample.PermutationTables;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class EncryptionUtilsTest {
 
     @org.testng.annotations.Test
     public void testGetBites() {
-        Assert.assertEquals(EncryptionUtils.getBites("KOCHAM CIE"), "01001011010011110100001101001000010000010100110100100000010000110100100101000101");
+        String encryptedMessage = "Ç3A\n×\u0087\u0088þ";
+        Assert.assertEquals(EncryptionUtils.getBinary("KOCHAM CIE"), "01001011010011110100001101001000010000010100110100100000010000110100100101000101");
+        Assert.assertEquals(EncryptionUtils.getBinary(encryptedMessage), "1100011100110011010000010000101011010111100001111000100011111110");
+        Assert.assertEquals(EncryptionUtils.getBinary("Ç"), "11000111");
     }
 
     @org.testng.annotations.Test
@@ -102,10 +104,29 @@ public class EncryptionUtilsTest {
         keysFromExcel.add("110000011000011010100010001000011000110011010000");
         keysFromExcel.add("111000001000001000101010110000100011001010011000");
 
-        ArrayList<String> possibleKyes = Main.getEncryptedKeys(key);
+        ArrayList<String> possibleKyes = Algorithm.getEncryptedKeys(key);
 
         for (int i = 0 ; i < keysFromExcel.size() ; i++) {
             AssertJUnit.assertEquals("Key " + i, keysFromExcel.get(i), possibleKyes.get(i));
         }
+    }
+    @org.testng.annotations.Test
+    public void encryptionTest() {
+        String encryptedMessage = "Ç3A\n" +
+                "×\u0087\u0088þ";
+        String key = "IEOFIT#1";
+        String originalMessage = "IEOFIT#1";
+
+        AssertJUnit.assertEquals("Should encrypt properly", Algorithm.encryptMessage(originalMessage, key), encryptedMessage);
+    }
+
+    @org.testng.annotations.Test
+    public void decryptionTest() {
+        String encryptedMessage = "Ç3A\n" +
+                "×\u0087\u0088þ";
+        String key = "IEOFIT#1";
+        String originalMessage = "IEOFIT#1";
+
+        AssertJUnit.assertEquals("Should decrypt properly", originalMessage, Algorithm.decryptMessage(encryptedMessage, key));
     }
 }

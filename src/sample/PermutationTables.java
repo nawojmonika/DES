@@ -27,7 +27,7 @@ public class PermutationTables {
             61, 53, 45, 37, 29, 21, 13, 5,
             63, 55, 47, 39, 31, 23, 15, 7};
 
-    public static int[] rightInitialPermutation = {32, 1, 2, 3, 4, 5, 4, 5,
+    public static int[] expansionBox = {32, 1, 2, 3, 4, 5, 4, 5,
             6, 7, 8, 9, 8, 9, 10, 11,
             12, 13, 12, 13, 14, 15, 16, 17,
             16, 17, 18, 19, 20, 21, 20, 21,
