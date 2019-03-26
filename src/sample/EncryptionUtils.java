@@ -1,11 +1,13 @@
 package sample;
 
+import java.nio.charset.Charset;
+
 public class EncryptionUtils {
     public static String getBites(String message) {
         String biteMessage = "";
-        byte[] ascii = message.getBytes();
+        byte[] ascii = message.getBytes(Charset.forName("UTF-8"));
         for (byte character : ascii) {
-            String binary = Integer.toString((int) character, 2);
+            String binary = Integer.toBinaryString((int) character);
             for (int numberOfBitsToFill = 8 - binary.length(); numberOfBitsToFill > 0; numberOfBitsToFill--) {
                 binary = "0" + binary;
             }
