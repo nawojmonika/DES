@@ -1,6 +1,8 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import static sample.EncryptionUtils.*;
 import static sample.EncryptionUtils.permutation;
@@ -26,7 +28,18 @@ public class Algorithm {
 
     public static String encryptMessage(String originalMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
-        String permutatedMessage = permutation(getBinary(originalMessage), PermutationTables.IP);
+        return DES(originalMessage, encryptedKeys);
+    }
+
+    public static String decryptMessage(String encryptedMessage, String key){
+        ArrayList<String> encryptedKeys = getEncryptedKeys(key);
+        Collections.reverse(encryptedKeys);
+        return DES(encryptedMessage, encryptedKeys);
+    }
+
+
+    private static String DES(String message,  ArrayList<String> encryptedKeys){
+        String permutatedMessage = permutation(getBinary(message), PermutationTables.IP);
         String leftSide = permutatedMessage.substring(0, 32);
         String rightSide = permutatedMessage.substring(32, 64);
         for (String subkey:encryptedKeys) {
@@ -39,23 +52,7 @@ public class Algorithm {
         String reversed = rightSide + leftSide;
         String encryptedBlock = permutation(reversed, PermutationTables.finalPermutation);
         return binaryToString(encryptedBlock);
-    }
 
-    public static String decryptMessage(String encryptedMessage, String key){
-        ArrayList<String> encryptedKeys = getEncryptedKeys(key);
-        String permutatedMessage = permutation(getBinary(encryptedMessage), PermutationTables.IP);
-        String leftSide = permutatedMessage.substring(0, 32);
-        String rightSide = permutatedMessage.substring(32, 64);
-        for (int i = encryptedKeys.size() -1 ; i >= 0 ; i--) {
-            String prevLeft = leftSide;
-            String prevRight = rightSide;
-            String encrytedRight = rightSideEncryption(rightSide, encryptedKeys.get(i));
-            rightSide = performXOR(encrytedRight, prevLeft);
-            leftSide = prevRight;
-        }
-        String reversed = rightSide + leftSide;
-        String encryptedBlock = permutation(reversed, PermutationTables.finalPermutation);
-        return binaryToString(encryptedBlock);
     }
 
     private static String binaryToString(String binaryMessage){
