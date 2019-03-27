@@ -28,18 +28,28 @@ public class Algorithm {
 
     public static String encryptMessage(String originalMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
-        return DES(originalMessage, encryptedKeys);
+        String binaryMessage = getBinary(originalMessage);
+        String encryptedMessage = "";
+        for (int i = 0; i < binaryMessage.length(); i+=63) {
+            System.out.println(binaryMessage.length());
+
+            String block = binaryMessage.substring(i, i + 63);
+            System.out.println(block.length());
+            encryptedMessage += DES(block, encryptedKeys);
+        }
+        return encryptedMessage;
     }
 
     public static String decryptMessage(String encryptedMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
+        String binaryMessage = getBinary(encryptedMessage);
         Collections.reverse(encryptedKeys);
-        return DES(encryptedMessage, encryptedKeys);
+        return DES(binaryMessage, encryptedKeys);
     }
 
 
-    private static String DES(String message,  ArrayList<String> encryptedKeys){
-        String permutatedMessage = permutation(getBinary(message), PermutationTables.IP);
+    private static String DES(String binaryMessage,  ArrayList<String> encryptedKeys){
+        String permutatedMessage = permutation(binaryMessage, PermutationTables.IP);
         String leftSide = permutatedMessage.substring(0, 32);
         String rightSide = permutatedMessage.substring(32, 64);
         for (String subkey:encryptedKeys) {
