@@ -1,19 +1,11 @@
 package sample;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
 public class EncryptionUtils {
     public static String getBinary(String message) {
         String biteMessage = "";
         for (int i = 0; i < message.length() ; i++) {
             String binary = Integer.toString(message.charAt(i), 2);
-            for (int numberOfBitsToFill = 8 - binary.length(); numberOfBitsToFill > 0; numberOfBitsToFill--) {
-                binary = "0" + binary;
-            }
-            biteMessage += binary;
-
+            biteMessage += fillWithZeros(binary, 8);
         }
         return biteMessage;
     }
@@ -45,5 +37,12 @@ public class EncryptionUtils {
             }
         }
         return output;
+    }
+
+    public static String fillWithZeros(String binaryMessage, int numberToFill){
+        for (int i = numberToFill - binaryMessage.length(); i > 0; i--) {
+            binaryMessage = "0" + binaryMessage;
+        }
+        return binaryMessage;
     }
 }

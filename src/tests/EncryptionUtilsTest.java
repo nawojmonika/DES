@@ -112,12 +112,16 @@ public class EncryptionUtilsTest {
     }
     @org.testng.annotations.Test
     public void encryptionTest() {
-        String encryptedMessage = "Ç3A\n" +
-                "×\u0087\u0088þ";
         String key = "IEOFIT#1";
         String originalMessage = "IEOFIT#1";
+        String encryptedMessage = "Ç3A\n×\u0087\u0088þ";
 
         AssertJUnit.assertEquals("Should encrypt properly", Algorithm.encryptMessage(originalMessage, key), encryptedMessage);
+
+        String originalMessage2 = "Ala ma kota";
+        String encryptedMessage2 = "ì\u0095aÆ×Ü¾ñ\u008E þùHJ6";
+
+        AssertJUnit.assertEquals("Should encrypt properly length: " + originalMessage2.length() , Algorithm.encryptMessage(originalMessage2, key), encryptedMessage2);
     }
 
     @org.testng.annotations.Test

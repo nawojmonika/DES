@@ -1,7 +1,6 @@
 package sample;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import static sample.EncryptionUtils.*;
@@ -28,25 +27,28 @@ public class Algorithm {
 
     public static String encryptMessage(String originalMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
+
+
         String binaryMessage = getBinary(originalMessage);
         String encryptedMessage = "";
-        for (int i = 0; i < binaryMessage.length(); i+=63) {
-            System.out.println(binaryMessage.length());
-
-            String block = binaryMessage.substring(i, i + 63);
-            System.out.println(block.length());
+        int wantedLenght = 64;
+        int messageLength = binaryMessage.length();
+        if(messageLength % wantedLenght != 0){
+            int numberOfBytesToFill = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
+        binaryMessage = fillZerosEnd(binaryMessage, numberOfBytesToFill);
+        }
+        for (int i = 0; i < binaryMessage.length() ; i+=64) {
+            String block = binaryMessage.substring(0, i +64);
             encryptedMessage += DES(block, encryptedKeys);
         }
         return encryptedMessage;
     }
-
     public static String decryptMessage(String encryptedMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
         String binaryMessage = getBinary(encryptedMessage);
         Collections.reverse(encryptedKeys);
         return DES(binaryMessage, encryptedKeys);
     }
-
 
     private static String DES(String binaryMessage,  ArrayList<String> encryptedKeys){
         String permutatedMessage = permutation(binaryMessage, PermutationTables.IP);
@@ -63,6 +65,13 @@ public class Algorithm {
         String encryptedBlock = permutation(reversed, PermutationTables.finalPermutation);
         return binaryToString(encryptedBlock);
 
+    }
+
+    public static String fillZerosEnd(String bits, int numberOfBytesToFill){
+        for (int i = 0 ; i < numberOfBytesToFill; i++) {
+            bits += "0";
+        }
+        return bits;
     }
 
     private static String binaryToString(String binaryMessage){
