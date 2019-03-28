@@ -27,27 +27,39 @@ public class Algorithm {
 
     public static String encryptMessage(String originalMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
-
+        int wantedLenght = 8;
+        int messageLength = originalMessage.length();
+        if(messageLength % wantedLenght != 0){
+            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
+            originalMessage = padWithSpaces(originalMessage, numOfSPaces);
+        }
 
         String binaryMessage = getBinary(originalMessage);
         String encryptedMessage = "";
-        int wantedLenght = 64;
-        int messageLength = binaryMessage.length();
-        if(messageLength % wantedLenght != 0){
-            int numberOfBytesToFill = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
-        binaryMessage = fillZerosEnd(binaryMessage, numberOfBytesToFill);
-        }
+
         for (int i = 0; i < binaryMessage.length() ; i+=64) {
-            String block = binaryMessage.substring(0, i +64);
+            String block = binaryMessage.substring(i, i +64);
             encryptedMessage += DES(block, encryptedKeys);
         }
         return encryptedMessage;
     }
     public static String decryptMessage(String encryptedMessage, String key){
         ArrayList<String> encryptedKeys = getEncryptedKeys(key);
+        int wantedLenght = 8;
+        int messageLength = encryptedMessage.length();
+        if(messageLength % wantedLenght != 0){
+            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
+            encryptedMessage = padWithSpaces(encryptedMessage, numOfSPaces);
+        }
         String binaryMessage = getBinary(encryptedMessage);
         Collections.reverse(encryptedKeys);
-        return DES(binaryMessage, encryptedKeys);
+        String decryptedMessage = "";
+
+        for (int i = 0; i < binaryMessage.length() ; i+=64) {
+            String block = binaryMessage.substring(i, i +64);
+            decryptedMessage += DES(block, encryptedKeys);
+        }
+        return decryptedMessage.trim();
     }
 
     private static String DES(String binaryMessage,  ArrayList<String> encryptedKeys){
@@ -64,12 +76,11 @@ public class Algorithm {
         String reversed = rightSide + leftSide;
         String encryptedBlock = permutation(reversed, PermutationTables.finalPermutation);
         return binaryToString(encryptedBlock);
-
     }
 
-    public static String fillZerosEnd(String bits, int numberOfBytesToFill){
+    public static String padWithSpaces(String bits, int numberOfBytesToFill){
         for (int i = 0 ; i < numberOfBytesToFill; i++) {
-            bits += "0";
+            bits += " ";
         }
         return bits;
     }
