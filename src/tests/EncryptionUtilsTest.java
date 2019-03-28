@@ -121,7 +121,17 @@ public class EncryptionUtilsTest {
         String originalMessage2 = "Ala ma kota";
         String encryptedMessage2 = "\u009EÉV\u001Cm}Ëïæ\u0019NÁ\u0081ÓwÉ";
 
-        AssertJUnit.assertEquals("Should encrypt properly" + originalMessage2, encryptedMessage2, Algorithm.encryptMessage(originalMessage2, key));
+        AssertJUnit.assertEquals("Should encrypt properly " + originalMessage2, encryptedMessage2, Algorithm.encryptMessage(originalMessage2, key));
+
+        String originalMessage3 = "Monika ma 2 koty i psa";
+        String encryptedMessage3 = "?×a\u0094*\u0080¥\u001CAýñ;ïÐc[\u0099:µ\u0085[ÆÈÛ";
+
+        AssertJUnit.assertEquals("Should encrypt properly " + originalMessage3, encryptedMessage3, Algorithm.encryptMessage(originalMessage3, key));
+
+        String originalMessage4 = "To jest calkiem dlugi tekst to zaszyfrowania.";
+        String encryptedMessage4 = "àK\u0006A\u0085\u0093å\u0085\u0098ßÒ\u0003âÝ»Â\u009CJ\u0080\u001BvvtzûÚ(³\u001EÉ'C\u0013D(zøb?Õ\u0005\u0085\u0005\u0099¾Ñ\u000Bº";
+
+        AssertJUnit.assertEquals("Should encrypt properly " + originalMessage4, encryptedMessage4, Algorithm.encryptMessage(originalMessage4, key));
     }
 
     @org.testng.annotations.Test
@@ -135,5 +145,10 @@ public class EncryptionUtilsTest {
         String encryptedMessage2 = "\u009EÉV\u001Cm}Ëïæ\u0019NÁ\u0081ÓwÉ";
         String originalMessage2 = "Ala ma kota";
         AssertJUnit.assertEquals("Should decrypt properly ", originalMessage2, Algorithm.decryptMessage(encryptedMessage2, key));
+
+        String originalMessage3 = "Monika ma 2 koty i psa";
+        String encryptedMessage3 = "?×a\u0094*\u0080¥\u001CAýñ;ïÐc[\u0099:µ\u0085[ÆÈÛ";
+        AssertJUnit.assertEquals("Should decrypt properly ", originalMessage3, Algorithm.decryptMessage(encryptedMessage3, key));
+
     }
 }

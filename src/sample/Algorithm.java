@@ -30,10 +30,10 @@ public class Algorithm {
         int wantedLenght = 8;
         int messageLength = originalMessage.length();
         if(messageLength % wantedLenght != 0){
-            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
+            int multiply = (messageLength / wantedLenght) + 1;
+            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * multiply) - messageLength;
             originalMessage = padWithSpaces(originalMessage, numOfSPaces);
         }
-
         String binaryMessage = getBinary(originalMessage);
         String encryptedMessage = "";
 
@@ -48,7 +48,8 @@ public class Algorithm {
         int wantedLenght = 8;
         int messageLength = encryptedMessage.length();
         if(messageLength % wantedLenght != 0){
-            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * 2) - messageLength;
+            int multiply = (messageLength / wantedLenght) + 1;
+            int numOfSPaces = messageLength < wantedLenght ? wantedLenght - messageLength : (wantedLenght * multiply) - messageLength;
             encryptedMessage = padWithSpaces(encryptedMessage, numOfSPaces);
         }
         String binaryMessage = getBinary(encryptedMessage);

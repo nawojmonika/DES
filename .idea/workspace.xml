@@ -73,8 +73,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Algorithm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+            <state relative-caret-position="153">
+              <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -85,7 +85,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/SuiteRunnerWorker.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
+            <state relative-caret-position="17">
               <caret line="52" selection-start-line="52" selection-end-line="52" />
               <folding>
                 <element signature="e#2120#2121#0" expanded="true" />
@@ -97,8 +97,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tests/EncryptionUtilsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="121" column="74" lean-forward="true" selection-start-line="121" selection-start-column="74" selection-end-line="121" selection-end-column="74" />
+            <state relative-caret-position="34">
+              <caret line="131" column="164" selection-start-line="131" selection-start-column="164" selection-end-line="131" selection-end-column="164" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -164,9 +164,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="width" value="1461" />
-    <option name="height" value="1275" />
+    <option name="x" value="-11" />
+    <option name="y" value="-11" />
+    <option name="width" value="1622" />
+    <option name="height" value="863" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -222,7 +223,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553807649485" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553810844698" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="TestNG" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.TestNG" value="" />
     <property name="create.test.in.the.same.root" value="true" />
@@ -254,7 +255,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="TestNG.EncryptionUtilsTest.decryptionTest">
+  <component name="RunManager" selected="TestNG.EncryptionUtilsTest.encryptionTest">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -451,8 +452,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="TestNG.EncryptionUtilsTest.decryptionTest" />
         <item itemvalue="TestNG.EncryptionUtilsTest.encryptionTest" />
+        <item itemvalue="TestNG.EncryptionUtilsTest.decryptionTest" />
         <item itemvalue="TestNG.EncryptionUtilsTest.testGetBites" />
         <item itemvalue="TestNG.EncryptionUtilsTest." />
         <item itemvalue="TestNG.EncryptionUtilsTest.permutationTests" />
@@ -474,42 +475,42 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 51m 14s.xml">
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 22h 56m 39s.xml">
       <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 53m 40s.xml">
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 22h 57m 49s.xml">
       <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 54m 36s.xml">
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 22h 59m 25s.xml">
       <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 57m 40s.xml">
-      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 58m 05s.xml">
-      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 21h 59m 57s.xml">
-      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 22h 03m 44s.xml">
-      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 22h 03m 49s.xml">
-      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
-    </history-entry>
-    <history-entry file="EncryptionUtilsTest_decryptionTest - 2019.03.28 at 22h 07m 48s.xml">
+    <history-entry file="EncryptionUtilsTest_decryptionTest - 2019.03.28 at 22h 59m 34s.xml">
       <configuration name="EncryptionUtilsTest.decryptionTest" configurationId="TestNG" />
     </history-entry>
-    <history-entry file="EncryptionUtilsTest_decryptionTest - 2019.03.28 at 22h 11m 14s.xml">
+    <history-entry file="EncryptionUtilsTest_decryptionTest - 2019.03.28 at 23h 01m 05s.xml">
       <configuration name="EncryptionUtilsTest.decryptionTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 23h 01m 12s.xml">
+      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 23h 02m 34s.xml">
+      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 23h 03m 34s.xml">
+      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 23h 06m 01s.xml">
+      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="EncryptionUtilsTest_encryptionTest - 2019.03.28 at 23h 06m 47s.xml">
+      <configuration name="EncryptionUtilsTest.encryptionTest" configurationId="TestNG" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="-7" width="1081" height="575" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.2389814" />
@@ -521,7 +522,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3294979" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5048754" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.7968397" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -610,6 +611,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/jre/lib/rt.jar!/java/lang/String.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="704" column="34" lean-forward="true" selection-start-line="704" selection-start-column="34" selection-end-line="704" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/testng/testng/6.14.3/testng-6.14.3.jar!/org/testng/SuiteRunnerWorker.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="e#2120#2121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -619,8 +637,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tests/EncryptionUtilsTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="121" column="74" lean-forward="true" selection-start-line="121" selection-start-column="74" selection-end-line="121" selection-end-column="74" />
+        <state relative-caret-position="34">
+          <caret line="131" column="164" selection-start-line="131" selection-start-column="164" selection-end-line="131" selection-end-column="164" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -629,8 +647,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Algorithm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+        <state relative-caret-position="153">
+          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
