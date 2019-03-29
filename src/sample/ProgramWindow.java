@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Observable;
 import java.util.stream.Collectors;
 
 public class ProgramWindow {
@@ -29,8 +28,8 @@ public class ProgramWindow {
     private static MenuBar mainMenu = null;
     private static Menu openFromFile = null;
     private static MenuItem openEncryptedFile = null;
-    private static MenuItem openDecryptedFile = null;
-    private static MenuItem saveEncryptedFile = null;
+    private static MenuItem readFile = null;
+    private static MenuItem saveToFile = null;
     private static MenuItem saveDecryptedFile = null;
 
     private static Menu cryptography = null;
@@ -136,27 +135,10 @@ public class ProgramWindow {
     public void setupMenu() {
         mainMenu = new MenuBar();
         openFromFile = new Menu("File");
-        openEncryptedFile = new MenuItem("Open encrypted");
-        openDecryptedFile = new MenuItem("Open decrypted");
+        readFile = new MenuItem("Read from file");
+        saveToFile = new MenuItem("Save output to file");
 
-        saveEncryptedFile = new MenuItem("Save encrypted");
-        saveDecryptedFile = new MenuItem("Save decrypted");
-
-        openEncryptedFile.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showOpenDialog(null);
-
-            try {
-                List<String> lines = Files.readAllLines(selectedFile.toPath());
-                String wholeFileInText = lines.stream().map(String::toString).collect(Collectors.joining(System.lineSeparator()));
-                outputText.setText(wholeFileInText);
-            } catch (Exception e) {
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setHeaderText(e.toString());
-            }
-        });
-
-        openDecryptedFile.setOnAction(event -> {
+        readFile.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -171,7 +153,7 @@ public class ProgramWindow {
 
         });
 
-        saveEncryptedFile.setOnAction(event -> {
+        saveToFile.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
 
             //Set extension filter
@@ -183,21 +165,6 @@ public class ProgramWindow {
 
             if(file != null){
                 SaveFile(outputText.getText(), file);
-            }
-        });
-
-        saveDecryptedFile.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-
-            //Set extension filter
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-            //Show save file dialog
-            File file = fileChooser.showSaveDialog(mainStage);
-
-            if(file != null){
-                SaveFile(originalText.getText(), file);
             }
         });
 
@@ -215,7 +182,7 @@ public class ProgramWindow {
 
 
         cryptography.getItems().addAll(encrypt, decrypt);
-        openFromFile.getItems().addAll(openEncryptedFile, openDecryptedFile, saveEncryptedFile, saveDecryptedFile);
+        openFromFile.getItems().addAll(readFile, saveToFile);
 
         mainMenu.getMenus().addAll(openFromFile, cryptography);
 
