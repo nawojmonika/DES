@@ -16,9 +16,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         ProgramWindow pw = new ProgramWindow(primaryStage);
         primaryStage.show();
-
-        //this.encryptMessage(this.originalMessage, this.key);
-        //this.decryptMessage(this.encryptedMessage, this.key);
     }
 
     public static void main(String[] args) {

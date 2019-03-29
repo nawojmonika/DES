@@ -1,7 +1,9 @@
 package sample;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -14,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Observable;
 import java.util.stream.Collectors;
 
 public class ProgramWindow {
@@ -38,7 +41,7 @@ public class ProgramWindow {
 
     private static TextArea originalText = null;
     private static TextArea outputText = null;
-
+    private static Button actionButton = null;
 
     ProgramWindow(Stage mainStage) {
         this.mainStage = mainStage;
@@ -48,19 +51,19 @@ public class ProgramWindow {
         borderPane = new BorderPane();
 
         setupMenu();
-        setupInputs(false);
+        setupInputs();
 
         mainStage.setScene(scene);
         mainStage.show();
     }
 
-    public void setupInputs(Boolean decryption) {
+    public void setupInputs() {
         inputsGrid = new GridPane();
 
-        Label originalTextLabel = decryption ? new Label("Text to decryption") : new Label("Text to encryption");
-        Label outputLabel = decryption ? new Label("Decrypted text") : new Label("Encrypted text");
+        Label originalTextLabel = new Label("Text to encrypt");
+        Label outputLabel = new Label("Encrypted text");
         Label labelKeyInput = new Label("Key input");
-        Button actionButton = decryption ? new Button("Decrypt")  : new Button("Encrypt");
+        actionButton = new Button("Encrypt");
         inputsGrid.setHalignment(labelKeyInput, HPos.CENTER);
 
         keyInput = new TextField();
@@ -79,13 +82,55 @@ public class ProgramWindow {
 
         inputsGrid.add(actionButton, 3,1);
         actionButton.setOnAction(event -> {
-            String message = originalText.getText();
-            String key = keyInput.getText();
-            String output = decryption ? Algorithm.decryptMessage(message, key) : Algorithm.encryptMessage(message, key);
-            outputText.setText(output);
+            this.encryptMessage();
         });
-
         borderPane.setCenter(inputsGrid);
+    }
+
+    private void setLabels(String originalText, String output, String button){
+        ObservableList<Node> children = inputsGrid.getChildren();
+        Label originalTextLabel = (Label) children.get(2);
+        originalTextLabel.setText(originalText);
+
+        Label outputLabel = (Label) children.get(4);
+        outputLabel.setText(output);
+
+        actionButton.setText(button);
+    }
+
+    private void encryptMessage(){
+        String message = originalText.getText();
+        String key = keyInput.getText();
+        String output = Algorithm.encryptMessage(message, key);
+        outputText.setText(output);
+    }
+
+    private void decryptMessage(){
+        String message = originalText.getText();
+        String key = keyInput.getText();
+        String output = Algorithm.decryptMessage(message, key);
+        outputText.setText(output);
+    }
+
+    private void setEncryption(){
+        String originalText = "Text to encrypt";
+        String output = "Encrypted text";
+        String button = "Encrypt";
+        outputText.setText("");
+        this.setLabels(originalText, output, button);
+        actionButton.setOnAction(event -> {
+            this.encryptMessage();
+        });
+    }
+
+    private void setDecryption(){
+        String originalText = "Text to decrypt";
+        String output = "Decrypted text";
+        String button = "Decrypt";
+        outputText.setText("");        this.setLabels(originalText, output, button);
+        actionButton.setOnAction(event -> {
+            this.decryptMessage();
+        });
     }
 
     public void setupMenu() {
@@ -161,11 +206,11 @@ public class ProgramWindow {
         decrypt = new MenuItem("Decrypt") ;
 
         encrypt.setOnAction(event -> {
-            this.setupInputs(false);
+            this.setEncryption();
         });
 
         decrypt.setOnAction(event -> {
-            this.setupInputs(true);
+            this.setDecryption();
         });
 
 
