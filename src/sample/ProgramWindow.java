@@ -34,10 +34,10 @@ public class ProgramWindow {
     private static MenuItem encrypt = null;
     private static MenuItem decrypt = null;
 
-    private static TextField key = null;
+    private static TextField keyInput = null;
 
-    private static TextArea textToEncryption = null;
-    private static TextArea encryptedText = null;
+    private static TextArea originalText = null;
+    private static TextArea outputText = null;
 
 
     ProgramWindow(Stage mainStage) {
@@ -48,39 +48,41 @@ public class ProgramWindow {
         borderPane = new BorderPane();
 
         setupMenu();
-        setupInputs();
+        setupInputs(false);
 
         mainStage.setScene(scene);
         mainStage.show();
     }
 
-    public void setupInputs() {
+    public void setupInputs(Boolean decryption) {
         inputsGrid = new GridPane();
 
-        Label labelTextToEncryption = new Label("Text to encryption");
-        Label labelEncryptedText = new Label("Encrypted text");
+        Label originalTextLabel = decryption ? new Label("Text to decryption") : new Label("Text to encryption");
+        Label outputLabel = decryption ? new Label("Decrypted text") : new Label("Encrypted text");
         Label labelKeyInput = new Label("Key input");
-        Button encryptButton = new Button("Encrypt");
+        Button actionButton = decryption ? new Button("Decrypt")  : new Button("Encrypt");
         inputsGrid.setHalignment(labelKeyInput, HPos.CENTER);
 
-        key = new TextField();
-        textToEncryption = new TextArea();
-        encryptedText = new TextArea();
+        keyInput = new TextField();
+        originalText = new TextArea();
+        outputText = new TextArea();
 
 
         inputsGrid.add(labelKeyInput, 1, 1);
-        inputsGrid.add(key, 2, 1);
+        inputsGrid.add(keyInput, 2, 1);
 
-        inputsGrid.add(labelTextToEncryption, 1, 2);
-        inputsGrid.add(textToEncryption, 1, 3);
+        inputsGrid.add(originalTextLabel, 1, 2);
+        inputsGrid.add(originalText, 1, 3);
 
-        inputsGrid.add(labelEncryptedText, 2, 2);
-        inputsGrid.add(encryptedText, 2, 3);
+        inputsGrid.add(outputLabel, 2, 2);
+        inputsGrid.add(outputText, 2, 3);
 
-        inputsGrid.add(encryptButton, 3,1);
-        encryptButton.setOnAction(event -> {
-            String encryptedMessage = Algorithm.encryptMessage(textToEncryption.getText(), key.getText());
-            encryptedText.setText(encryptedMessage);
+        inputsGrid.add(actionButton, 3,1);
+        actionButton.setOnAction(event -> {
+            String message = originalText.getText();
+            String key = keyInput.getText();
+            String output = decryption ? Algorithm.decryptMessage(message, key) : Algorithm.encryptMessage(message, key);
+            outputText.setText(output);
         });
 
         borderPane.setCenter(inputsGrid);
@@ -102,7 +104,7 @@ public class ProgramWindow {
             try {
                 List<String> lines = Files.readAllLines(selectedFile.toPath());
                 String wholeFileInText = lines.stream().map(String::toString).collect(Collectors.joining(System.lineSeparator()));
-                encryptedText.setText(wholeFileInText);
+                outputText.setText(wholeFileInText);
             } catch (Exception e) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(e.toString());
@@ -116,7 +118,7 @@ public class ProgramWindow {
             try {
                 List<String> lines = Files.readAllLines(selectedFile.toPath());
                 String wholeFileInText = lines.stream().collect(Collectors.joining(System.lineSeparator()));
-                textToEncryption.setText(wholeFileInText);
+                originalText.setText(wholeFileInText);
             } catch (Exception e) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(e.toString());
@@ -135,7 +137,7 @@ public class ProgramWindow {
             File file = fileChooser.showSaveDialog(mainStage);
 
             if(file != null){
-                SaveFile(encryptedText.getText(), file);
+                SaveFile(outputText.getText(), file);
             }
         });
 
@@ -150,7 +152,7 @@ public class ProgramWindow {
             File file = fileChooser.showSaveDialog(mainStage);
 
             if(file != null){
-                SaveFile(textToEncryption.getText(), file);
+                SaveFile(originalText.getText(), file);
             }
         });
 
@@ -159,15 +161,11 @@ public class ProgramWindow {
         decrypt = new MenuItem("Decrypt") ;
 
         encrypt.setOnAction(event -> {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setHeaderText("Tutaj dodać obsługę enkrypcji");
-            a.show();
+            this.setupInputs(false);
         });
 
         decrypt.setOnAction(event -> {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setHeaderText("Tutaj dodać obsługę dekrypcji");
-            a.show();
+            this.setupInputs(true);
         });
 
 
@@ -189,6 +187,5 @@ public class ProgramWindow {
             fileWriter.close();
         } catch (IOException ex) {
         }
-
     }
 }
