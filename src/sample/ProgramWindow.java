@@ -81,7 +81,9 @@ public class ProgramWindow {
 
         inputsGrid.add(actionButton, 3,1);
         actionButton.setOnAction(event -> {
-            this.encryptMessage();
+            if(this.validKey()){
+                this.encryptMessage();
+            }
         });
         borderPane.setCenter(inputsGrid);
     }
@@ -118,7 +120,9 @@ public class ProgramWindow {
         outputText.setText("");
         this.setLabels(originalText, output, button);
         actionButton.setOnAction(event -> {
-            this.encryptMessage();
+            if(this.validKey()){
+                this.encryptMessage();
+            }
         });
     }
 
@@ -126,10 +130,24 @@ public class ProgramWindow {
         String originalText = "Text to decrypt";
         String output = "Decrypted text";
         String button = "Decrypt";
-        outputText.setText("");        this.setLabels(originalText, output, button);
+        outputText.setText("");
+        this.setLabels(originalText, output, button);
         actionButton.setOnAction(event -> {
-            this.decryptMessage();
+            if(this.validKey()){
+                this.decryptMessage();
+            }
         });
+    }
+
+    private boolean validKey(){
+        String key = keyInput.getText();
+        if(key.length() < 8){
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText("Key must not be shorter than 8 chars!");
+            a.show();
+            return false;
+        }
+        return true;
     }
 
     public void setupMenu() {
