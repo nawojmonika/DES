@@ -6,21 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProgramWindow {
@@ -67,6 +60,7 @@ public class ProgramWindow {
         Label labelTextToEncryption = new Label("Text to encryption");
         Label labelEncryptedText = new Label("Encrypted text");
         Label labelKeyInput = new Label("Key input");
+        Button encryptButton = new Button("Encrypt");
         inputsGrid.setHalignment(labelKeyInput, HPos.CENTER);
 
         key = new TextField();
@@ -82,6 +76,12 @@ public class ProgramWindow {
 
         inputsGrid.add(labelEncryptedText, 2, 2);
         inputsGrid.add(encryptedText, 2, 3);
+
+        inputsGrid.add(encryptButton, 3,1);
+        encryptButton.setOnAction(event -> {
+            String encryptedMessage = Algorithm.encryptMessage(textToEncryption.getText(), key.getText());
+            encryptedText.setText(encryptedMessage);
+        });
 
         borderPane.setCenter(inputsGrid);
     }

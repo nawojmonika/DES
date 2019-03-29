@@ -150,5 +150,10 @@ public class EncryptionUtilsTest {
         String encryptedMessage3 = "?×a\u0094*\u0080¥\u001CAýñ;ïÐc[\u0099:µ\u0085[ÆÈÛ";
         AssertJUnit.assertEquals("Should decrypt properly ", originalMessage3, Algorithm.decryptMessage(encryptedMessage3, key));
 
+        String originalMessage4 = "To jest calkiem dlugi tekst to zaszyfrowania.";
+        String encryptedMessage4 = "àK\u0006A\u0085\u0093å\u0085\u0098ßÒ\u0003âÝ»Â\u009CJ\u0080\u001BvvtzûÚ(³\u001EÉ'C\u0013D(zøb?Õ\u0005\u0085\u0005\u0099¾Ñ\u000Bº";
+
+        AssertJUnit.assertEquals("Should decrypt properly ", originalMessage4, Algorithm.decryptMessage(encryptedMessage4, key));
+
     }
 }
