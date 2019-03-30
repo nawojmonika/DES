@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -103,13 +104,26 @@ public class ProgramWindow {
         String message = originalText.getText();
         String key = keyInput.getText();
         String output = Algorithm.encryptMessage(message, key);
-        outputText.setText(output);
+
+        outputText.setText(StringEscapeUtils.escapeJava(output));
+    }
+
+    public static String unicodeEscaped(char ch) {
+        if (ch < 0x10) {
+            return "\\u000" + Integer.toHexString(ch);
+        } else if (ch < 0x100) {
+            return "\\u00" + Integer.toHexString(ch);
+        } else if (ch < 0x1000) {
+            return "\\u0" + Integer.toHexString(ch);
+        }
+        return "\\u" + Integer.toHexString(ch);
     }
 
     private void decryptMessage(){
         String message = originalText.getText();
+
         String key = keyInput.getText();
-        String output = Algorithm.decryptMessage(message, key);
+        String output = Algorithm.decryptMessage(StringEscapeUtils.unescapeJava(message), key);
         outputText.setText(output);
     }
 
