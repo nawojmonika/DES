@@ -155,9 +155,9 @@ public class ProgramWindow {
 
     private boolean validKey(){
         String key = keyInput.getText();
-        if(key.length() < 8){
+        if(key.length() != 8){
             Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setHeaderText("Key must not be shorter than 8 chars!");
+            a.setHeaderText("Key must have 8 chars!");
             a.show();
             return false;
         }
