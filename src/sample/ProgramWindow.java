@@ -12,10 +12,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +41,11 @@ public class ProgramWindow {
     private static TextArea originalText = null;
     private static TextArea outputText = null;
     private static Button actionButton = null;
+
+    private static CheckBox shouldPutTextToTextArea = new CheckBox("Should put data as files");
+
+    private static String sadTextToEncrypt = "";
+    private static String sadTextToSaveDecrypt = "";
 
     ProgramWindow(Stage mainStage) {
         this.mainStage = mainStage;
@@ -81,6 +85,7 @@ public class ProgramWindow {
         inputsGrid.add(outputText, 2, 3);
 
         inputsGrid.add(actionButton, 3,1);
+        inputsGrid.add(shouldPutTextToTextArea, 4,1);
         actionButton.setOnAction(event -> {
             if(this.validKey()){
                 this.encryptMessage();
@@ -101,30 +106,32 @@ public class ProgramWindow {
     }
 
     private void encryptMessage(){
-        String message = originalText.getText();
-        String key = keyInput.getText();
-        String output = Algorithm.encryptMessage(message, key);
+        if (shouldPutTextToTextArea.isSelected()) {
+            String key = keyInput.getText();
+            sadTextToSaveDecrypt = Algorithm.encryptMessage(sadTextToEncrypt, key);
+            saveToFile.fire();
+        } else {
+            String message = originalText.getText();
+            String key = keyInput.getText();
+            String output = Algorithm.encryptMessage(message, key);
 
-        outputText.setText(StringEscapeUtils.escapeJava(output));
-    }
-
-    public static String unicodeEscaped(char ch) {
-        if (ch < 0x10) {
-            return "\\u000" + Integer.toHexString(ch);
-        } else if (ch < 0x100) {
-            return "\\u00" + Integer.toHexString(ch);
-        } else if (ch < 0x1000) {
-            return "\\u0" + Integer.toHexString(ch);
+            outputText.setText(StringEscapeUtils.escapeJava(output));
         }
-        return "\\u" + Integer.toHexString(ch);
     }
 
     private void decryptMessage(){
-        String message = originalText.getText();
+        if (shouldPutTextToTextArea.isSelected()) {
+            openFromFile.fire();
+            String key = keyInput.getText();
+            sadTextToSaveDecrypt = Algorithm.decryptMessage(sadTextToEncrypt, key);
+            saveToFile.fire();
+        } else {
+            String message = originalText.getText();
 
-        String key = keyInput.getText();
-        String output = Algorithm.decryptMessage(StringEscapeUtils.unescapeJava(message), key);
-        outputText.setText(output);
+            String key = keyInput.getText();
+            String output = Algorithm.decryptMessage(StringEscapeUtils.unescapeJava(message), key);
+            outputText.setText(output);
+        }
     }
 
     private void setEncryption(){
@@ -175,9 +182,22 @@ public class ProgramWindow {
             File selectedFile = fileChooser.showOpenDialog(null);
 
             try {
-                List<String> lines = Files.readAllLines(selectedFile.toPath());
-                String wholeFileInText = lines.stream().collect(Collectors.joining(System.lineSeparator()));
-                originalText.setText(wholeFileInText);
+                if(shouldPutTextToTextArea.isSelected()) {
+                    FileInputStream fis = new FileInputStream(selectedFile);
+                    DataInputStream dis = new DataInputStream(fis);
+                    int bytes[] = new int[dis.available()];
+                    int i = 0;
+                    sadTextToEncrypt = "";
+                    while(dis.available() > 0) {
+                        sadTextToEncrypt += (char)dis.readUnsignedByte();
+                        i++;
+                    }
+
+                } else {
+                    List<String> lines = Files.readAllLines(selectedFile.toPath());
+                    String wholeFileInText = lines.stream().collect(Collectors.joining(System.lineSeparator()));
+                    originalText.setText(wholeFileInText);
+                }
             } catch (Exception e) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setHeaderText(e.toString());
@@ -187,16 +207,25 @@ public class ProgramWindow {
 
         saveToFile.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
-
-            //Set extension filter
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-            //Show save file dialog
             File file = fileChooser.showSaveDialog(mainStage);
 
-            if(file != null){
-                SaveFile(outputText.getText(), file);
+            if (shouldPutTextToTextArea.isSelected()) {
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    DataOutputStream dos = new DataOutputStream(fos);
+
+                    dos.writeBytes(sadTextToSaveDecrypt);
+                    dos.close();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if(file != null){
+                    SaveFile(outputText.getText(), file);
+                }
             }
         });
 
